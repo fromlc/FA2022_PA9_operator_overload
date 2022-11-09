@@ -60,7 +60,8 @@ void rentBike(CommunityBike* pBMatch) {
 	// check whether loop stopped because we found the bike
 	if (p != nullptr) {
 		if (p->pData->rentBike("Jane")) {
-			cout << "\nYour bike is waiting: " << p->pData << '\n';
+			cout << '\n' << p->pData->getRenterName()
+				<< ", your bike is waiting: " << p->pData << '\n';
 		}
 		else {
 			cout << "\nSorry, the " << p->pData 
