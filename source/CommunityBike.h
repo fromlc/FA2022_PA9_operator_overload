@@ -96,7 +96,7 @@ public:
 };
 
 //------------------------------------------------------------------------------
-// overload stream insertion operator <<
+// overload stream insertion operator << with a static function
 // 
 // static keyword generates one copy of this function for all compilation units
 //------------------------------------------------------------------------------
