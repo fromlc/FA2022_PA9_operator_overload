@@ -11,6 +11,7 @@
 // using symbols
 //------------------------------------------------------------------------------
 using std::cout;
+using std::ostream;
 using std::string;
 
 //------------------------------------------------------------------------------
@@ -78,9 +79,21 @@ public:
     //--------------------------------------------------------------------------
     float getRentalFee(int hours) { return (float) m_hourlyRate * hours; }
 
+    // overload comparison operator != 
+    bool operator!=(CommunityBike& compareBike) const {
+        return (this->m_frameHeight && this->m_color.compare(compareBike.m_color));
+    }
 
-    // put your operator overload functions here
+    friend ostream& operator<<(ostream& os, CommunityBike* pB);
+
 };
+
+// overload strream insertion operator <<
+ostream& operator<<(ostream& os, CommunityBike* pB) {
+    os << pB->m_color << ' ' << pB->m_frameHeight << "\" frame\n";
+    return os;
+}
+
 //--------------------------------------------------------------------------
 // allocate memory for and initialize static member vars outside the class
 //--------------------------------------------------------------------------

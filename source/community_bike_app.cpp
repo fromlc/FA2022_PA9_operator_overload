@@ -34,7 +34,17 @@ int main() {
 
 	CommunityBike* pBMatch = new CommunityBike("red", 19);
 
-	// #TODO find the matching bike in the list and display it
+	// find the matching bike in the list and display it
+
+	Node* p = bikes.getListHead();
+
+	while (p != nullptr && *((CommunityBike*)(p->pData)) != *pBMatch) {
+		p = p->pNext;
+	}
+
+	if (p != nullptr) {
+		cout << ((CommunityBike*)(p->pData));
+	}
 
 	cin.get();
 
