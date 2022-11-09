@@ -76,9 +76,9 @@ void rentBike(CommunityBike* pBMatch) {
 		// Instead of turning the person away,
 		// how can we check for another bike that might work?
 		// 
-		// Overload the <= operator, then use the <= operator
-		// in a loop to list all available bikes with 
-		// frame height no higher than the height requested. 
+		// Overload the <= operator, then use the <= to compare
+		// bike instances in a loop to list all available bikes 
+		// with frame height no taller than the height requested. 
 
 	}
 	cout << '\n';
