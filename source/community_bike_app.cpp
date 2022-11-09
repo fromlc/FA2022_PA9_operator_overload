@@ -32,9 +32,11 @@ int main() {
 	bikes.addNode(new CommunityBike("blue", 23));
 	bikes.addNode(new CommunityBike("red", 19));
 
+	CommunityBike* pBMatch = new CommunityBike("red", 19);
+
+	// #TODO find the matching bike in the list and display it
+
 	cin.get();
-
-
 
 	return 0;
 }
