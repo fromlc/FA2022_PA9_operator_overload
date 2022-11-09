@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\CommunityBikeStatics.cpp" />
     <ClCompile Include="source\community_bike_app.cpp" />
     <ClCompile Include="source\LinkedList.cpp" />
   </ItemGroup>

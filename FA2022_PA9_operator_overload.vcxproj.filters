@@ -21,6 +21,9 @@
     <ClCompile Include="source\community_bike_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\CommunityBikeStatics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\LinkedList.h">
