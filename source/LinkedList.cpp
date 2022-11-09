@@ -25,7 +25,7 @@ Node* LinkedList::getListHead() { return pHead; }
 //------------------------------------------------------------------------------
 // new item becomes list _head
 //------------------------------------------------------------------------------
-void LinkedList::addNode(void* pData) {
+void LinkedList::addNode(CommunityBike* pData) {
 
 	Node* pNode = new Node(pData);
 
