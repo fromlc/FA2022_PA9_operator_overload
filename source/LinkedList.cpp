@@ -18,6 +18,11 @@ LinkedList::LinkedList() { pHead = nullptr; }
 LinkedList::~LinkedList() { makeEmpty(); }
 
 //------------------------------------------------------------------------------
+// returns list head pointer
+//------------------------------------------------------------------------------
+Node* LinkedList::getListHead() { return pHead; }
+
+//------------------------------------------------------------------------------
 // new item becomes list _head
 //------------------------------------------------------------------------------
 void LinkedList::addNode(void* pData) {

@@ -31,9 +31,9 @@ public:
 	~LinkedList();
 
 	// manage nodes
-	void addNode(void* pData);				// add new node at head of list
+	Node* getListHead();				// returns list head pointer
+	void addNode(void* pData);			// add new node at head of list
 
-public:
 	// manage list 
 	bool isEmpty();
 	void makeEmpty();	// release each Node's memory
