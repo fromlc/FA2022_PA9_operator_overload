@@ -157,7 +157,7 @@ CommunityBike* findExactMatch(CommunityBike* pBMatch) {
 //------------------------------------------------------------------------------
 CommunityBike* findAlternates(CommunityBike* pBMatch) {
 
-	cout << "Bikes available with frame height <= "
+	cout << "Bikes available with frame height at most "
 		<< pBMatch->getFrameHeight() << "\":\n";
 
 	int countAlternates = 0;
@@ -170,7 +170,8 @@ CommunityBike* findAlternates(CommunityBike* pBMatch) {
 
 		// overloaded comparison operator <=
 		if (*pBike <= *pBMatch && pBike->isAvailable()) {
-			cout << '\t' << ++countAlternates << ") " << pBike << '\n';
+			cout << '\t' << ++countAlternates << ") " 
+				<< pBike << ", bike id=" << pBike->getID() << '\n';
 
 			if (pBike->getFrameHeight() == pBMatch->getFrameHeight()) {
 				pBestAlternate = pBike;
