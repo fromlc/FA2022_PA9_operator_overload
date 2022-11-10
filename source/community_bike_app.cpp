@@ -16,7 +16,10 @@ using std::cout;
 //------------------------------------------------------------------------------
 // local function prototypes
 //------------------------------------------------------------------------------
-void rentBike(CommunityBike* pBMatch);
+void showBikes();
+void rentBike(CommunityBike* pBMatch, const string& name);
+CommunityBike* findExactMatch(CommunityBike* pBMatch);
+CommunityBike* findAlternates(CommunityBike* pBMatch);
 
 //------------------------------------------------------------------------------
 // global variables 
@@ -29,6 +32,9 @@ LinkedList g_bikes;			// list of community bikes
 int main() {
 
 	// add bikes to the list, each becomes the new list head
+	g_bikes.addNode(new CommunityBike("blue", 21));
+	g_bikes.addNode(new CommunityBike("white", 21));
+	g_bikes.addNode(new CommunityBike("green", 21));
 	g_bikes.addNode(new CommunityBike("green", 21));
 	g_bikes.addNode(new CommunityBike("blue", 23));
 	g_bikes.addNode(new CommunityBike("silver", 23));
@@ -36,58 +42,147 @@ int main() {
 	g_bikes.addNode(new CommunityBike("black", 19));
 	g_bikes.addNode(new CommunityBike("red", 21));
 
-	// rent requested bikes
-	rentBike(new CommunityBike("red", 19));
-	rentBike(new CommunityBike("green", 19));
-	rentBike(new CommunityBike("red", 19));
+	// requested bikes
+	rentBike(new CommunityBike("red", 19), "Jane");
+	rentBike(new CommunityBike("green", 21), "Peter");
+	rentBike(new CommunityBike("red", 19), "Wesley");
+	rentBike(new CommunityBike("blue", 19), "Josh");
+	rentBike(new CommunityBike("yellow", 21), "Vivian");
+
+	// list all bikes
+	showBikes();
 
 	return 0;
 }
 
 //------------------------------------------------------------------------------
-// search for the requested bike in the list
+// list all bikes in the list
 //------------------------------------------------------------------------------
-void rentBike(CommunityBike* pBMatch) {
-	// find the matching bike in the list and display it
+void showBikes() {
+	cout << "\nCommunity Bikes\n\n";
 
-	Node* p = g_bikes.getListHead();
+	int countBikes = 0;
+	Node* pNode = g_bikes.getListHead();
 
-	// traverse the list comparing bikes by frame height
-	while (p != nullptr && *(p->pData) != *pBMatch) {
-		p = p->pNext;
+	// traverse the list and display bike info
+	while (pNode != nullptr) {
+		CommunityBike* pBike = pNode->pData;
+
+		cout << '\t' << ++countBikes << ") " 
+			<< pBike << ", bike id=" << pBike->getID();
+
+		if (!pBike->isAvailable()) {
+			cout << " (rented to " << pBike->getRenterName() << ')';
+		}
+		cout << '\n';
+
+		pNode = pNode->pNext;
+	}
+}
+
+//------------------------------------------------------------------------------
+// search the list for an exact match of the requested bike
+//------------------------------------------------------------------------------
+void rentBike(CommunityBike* pBMatch, const string& name) {
+
+	// list all bikes
+	showBikes();
+
+	cout << '\n' << name << " requested: " << pBMatch;
+
+	bool successfulRent = false;
+
+	// no exact match, or requested bike already rented: list alternate bikes
+	CommunityBike* pBike = findExactMatch(pBMatch);
+	if (!pBike) {
+		cout << "\nSorry " << name << ", there's no " << pBMatch << ".\n\n";
+	}
+	else if (pBike->rentBike(name)) {
+
+		successfulRent = true;
+		cout << '\n' << name << ", your bike is waiting: " 
+			<< pBike << ", bike id=" << pBike->getID() << "\n\n";
+	}
+	else {
+		cout << "\nSorry " << name << ", the " << pBike
+			<< " is rented to " << pBike->getRenterName() << "\n\n";
 	}
 
-	// check whether loop stopped because we found the bike
-	if (p != nullptr) {
-		if (p->pData->rentBike("Jane")) {
-			cout << '\n' << p->pData->getRenterName()
-				<< ", your bike is waiting: " << p->pData << '\n';
+	// handle no exact match or exact match already rented
+	if (!successfulRent) {
+		CommunityBike* pBike = findAlternates(pBMatch);
+
+		if (pBike) {
+			pBike->rentBike(name);
+			cout << name << ", your bike is waiting: "
+				<< pBike << ", bike id=" << pBike->getID() << "\n\n";
 		}
 		else {
-			cout << "\nSorry, the " << p->pData 
-				<< "is rented to " << p->pData->getRenterName() << '\n';
+			cout << "Sorry " << name << ", no bikes found with a " 
+				<< pBMatch->getFrameHeight() << "\" frame\n\n";
 		}
 	}
-	// or whether p went past the last bike on the list with no match
-	else {
-		// #TODO no exact match, turn the person away
-		cout << "\nSorry, there's no " << pBMatch << '\n';
 
-		// #TODO 
-		// Instead of turning the person away,
-		// how can we check for another bike that might work?
-		// 
-		// Overload the <= operator, then use the <= to compare
-		// bike instances in a loop to list all available bikes 
-		// with frame height no taller than the height requested. 
-
-	}
-	cout << '\n';
-
-	// release memory for this bike
+	// release memory allocated by caller for requested bike parameter
 	delete pBMatch;
 
 	// pause keeps app window from closing
 	cout << "Type the enter key to continue...";
 	cin.get();
+}
+
+//------------------------------------------------------------------------------
+// returns pointer to exact match, or nullptr if no exact match exists
+//------------------------------------------------------------------------------
+CommunityBike* findExactMatch(CommunityBike* pBMatch) {
+
+	Node* pNode = g_bikes.getListHead();
+
+	// traverse the list comparing bikes by frame height
+
+	// overloaded comparison operator !=
+	while (pNode != nullptr && *(pNode->pData) != *pBMatch) {
+		pNode = pNode->pNext;
+	}
+
+	return pNode ? pNode->pData : nullptr;
+}
+
+//------------------------------------------------------------------------------
+// list available bikes with frame height <= the height requested
+// 
+// returns:
+//		- pointer to an alternate bike with requested frame height,
+//		- nullptr if no bikes found with requested frame height
+//------------------------------------------------------------------------------
+CommunityBike* findAlternates(CommunityBike* pBMatch) {
+
+	cout << "Bikes available with frame height <= "
+		<< pBMatch->getFrameHeight() << "\":\n";
+
+	int countAlternates = 0;
+	CommunityBike* pBestAlternate = nullptr;
+
+	Node* pNode = g_bikes.getListHead();
+
+	while (pNode != nullptr) {
+		CommunityBike* pBike = pNode->pData;
+
+		// overloaded comparison operator <=
+		if (*pBike <= *pBMatch && pBike->isAvailable()) {
+			cout << '\t' << ++countAlternates << ") " << pBike << '\n';
+
+			if (pBike->getFrameHeight() == pBMatch->getFrameHeight()) {
+				pBestAlternate = pBike;
+			}
+		}
+		pNode = pNode->pNext;
+	}
+
+	if (!countAlternates) {
+		cout << "\tnone\n";
+	}
+	cout << '\n';
+
+	return pBestAlternate;
 }

@@ -48,10 +48,16 @@ public:
     }
 
     //--------------------------------------------------------------------------
-    // manage description
+    // manage bike info
+    //--------------------------------------------------------------------------
+    int getID() const { return m_id; }
+
     //--------------------------------------------------------------------------
     void setDescription(const string& desc) { m_description = desc;  }
     string& getDescription() { return m_description;  }
+
+    //--------------------------------------------------------------------------
+    int getFrameHeight() const { return m_frameHeight; }
 
     //--------------------------------------------------------------------------
     // manage bike rental
@@ -66,6 +72,10 @@ public:
     }
 
     //--------------------------------------------------------------------------
+    bool isAvailable() const { return m_available; }
+
+    //--------------------------------------------------------------------------
+    void setRenterName(const string& renterName) { m_renterName = renterName; }
     const string& getRenterName() const { return m_renterName; }
 
     //--------------------------------------------------------------------------
@@ -93,6 +103,14 @@ public:
         return (this->m_frameHeight != compareBike.m_frameHeight ||
                 this->m_color.compare(compareBike.m_color));
     }
+
+    //--------------------------------------------------------------------------
+    // overload comparison operator <=
+    //--------------------------------------------------------------------------
+    bool operator<=(CommunityBike& compareBike) const {
+        return (this->m_frameHeight <= compareBike.m_frameHeight);
+    }
+
 };
 
 //------------------------------------------------------------------------------
@@ -101,7 +119,7 @@ public:
 // static keyword generates one copy of this function for all compilation units
 //------------------------------------------------------------------------------
 static ostream& operator<<(ostream& os, CommunityBike* pB) {
-    os << pB->m_color << ' ' << pB->m_frameHeight << "\" frame ";
+    os << pB->m_color << ' ' << pB->m_frameHeight << "\" frame";
     return os;
 }
 #endif // COMMUNITYBIKE_H
