@@ -17,9 +17,10 @@ using std::cout;
 // local function prototypes
 //------------------------------------------------------------------------------
 void showBikes();
-void rentBike(CommunityBike* pBMatch, const string& name);
+void requestBike(CommunityBike* pBMatch, const string& name);
 CommunityBike* findExactMatch(CommunityBike* pBMatch);
 CommunityBike* findAlternates(CommunityBike* pBMatch);
+void transactBike(CommunityBike* pBike, const string& renterName);
 
 //------------------------------------------------------------------------------
 // global variables 
@@ -43,11 +44,12 @@ int main() {
 	g_bikes.addNode(new CommunityBike("red", 21));
 
 	// requested bikes
-	rentBike(new CommunityBike("red", 19), "Jane");
-	rentBike(new CommunityBike("green", 21), "Peter");
-	rentBike(new CommunityBike("red", 19), "Wesley");
-	rentBike(new CommunityBike("blue", 19), "Josh");
-	rentBike(new CommunityBike("yellow", 21), "Vivian");
+	requestBike(new CommunityBike("red", 19), "Jane");
+	requestBike(new CommunityBike("green", 21), "Peter");
+	requestBike(new CommunityBike("red", 19), "Wesley");
+	requestBike(new CommunityBike("blue", 19), "Josh");
+	requestBike(new CommunityBike("yellow", 21), "Vivian");
+	requestBike(new CommunityBike("black", 25), "Lance");
 
 	// list all bikes
 	showBikes();
@@ -83,7 +85,7 @@ void showBikes() {
 //------------------------------------------------------------------------------
 // search the list for an exact match of the requested bike
 //------------------------------------------------------------------------------
-void rentBike(CommunityBike* pBMatch, const string& name) {
+void requestBike(CommunityBike* pBMatch, const string& name) {
 
 	// list all bikes
 	showBikes();
@@ -97,11 +99,9 @@ void rentBike(CommunityBike* pBMatch, const string& name) {
 	if (!pBike) {
 		cout << "\nSorry " << name << ", there's no " << pBMatch << ".\n\n";
 	}
-	else if (pBike->rentBike(name)) {
-
+	else if (pBike->isAvailable()) {
 		successfulRent = true;
-		cout << '\n' << name << ", your bike is waiting: " 
-			<< pBike << ", bike id=" << pBike->getID() << "\n\n";
+		transactBike(pBike, name);
 	}
 	else {
 		cout << "\nSorry " << name << ", the " << pBike
@@ -113,12 +113,10 @@ void rentBike(CommunityBike* pBMatch, const string& name) {
 		CommunityBike* pBike = findAlternates(pBMatch);
 
 		if (pBike) {
-			pBike->rentBike(name);
-			cout << name << ", your bike is waiting: "
-				<< pBike << ", bike id=" << pBike->getID() << "\n\n";
+			transactBike(pBike, name);
 		}
 		else {
-			cout << "Sorry " << name << ", no bikes found with a " 
+			cout << "\nSorry " << name << ", no bikes found with a " 
 				<< pBMatch->getFrameHeight() << "\" frame\n\n";
 		}
 	}
@@ -183,7 +181,15 @@ CommunityBike* findAlternates(CommunityBike* pBMatch) {
 	if (!countAlternates) {
 		cout << "\tnone\n";
 	}
-	cout << '\n';
 
 	return pBestAlternate;
+}
+
+//------------------------------------------------------------------------------
+// completes bike rental
+//------------------------------------------------------------------------------
+void transactBike(CommunityBike* pBike, const string& renterName) {
+	pBike->rentBike(renterName);
+	cout << '\n' << renterName << ", your bike is waiting: "
+		<< pBike << ", bike id=" << pBike->getID() << "\n\n";
 }
