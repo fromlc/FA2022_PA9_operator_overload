@@ -58,10 +58,10 @@ int main() {
 }
 
 //------------------------------------------------------------------------------
-// list all bikes in the list
+// display all bikes in the list
 //------------------------------------------------------------------------------
 void showBikes() {
-	cout << "\nCommunity Bikes\n\n";
+	cout << "\nCommunity Bike List\n\n";
 
 	int countBikes = 0;
 	Node* pNode = g_bikes.getListHead();
