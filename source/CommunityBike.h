@@ -54,7 +54,7 @@ public:
 
     //--------------------------------------------------------------------------
     void setDescription(const string& desc) { m_description = desc;  }
-    string& getDescription() { return m_description;  }
+    string& getDescription() { return m_description; }
 
     //--------------------------------------------------------------------------
     int getFrameHeight() const { return m_frameHeight; }
