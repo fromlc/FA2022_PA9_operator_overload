@@ -118,8 +118,8 @@ public:
 // 
 // static keyword generates one copy of this function for all compilation units
 //------------------------------------------------------------------------------
-static ostream& operator<<(ostream& os, CommunityBike* pB) {
-    os << pB->m_color << ' ' << pB->m_frameHeight << "\" frame";
+static ostream& operator<<(ostream& os, CommunityBike* pBike) {
+    os << pBike->m_color << ' ' << pBike->m_frameHeight << "\" frame";
     return os;
 }
 #endif // COMMUNITYBIKE_H
