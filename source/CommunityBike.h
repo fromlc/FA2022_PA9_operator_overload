@@ -81,7 +81,8 @@ public:
     //--------------------------------------------------------------------------
     // return bike
     //--------------------------------------------------------------------------
-    void returnBike() { m_available = false; }
+    //void returnBike() { m_available = false; }    // nobody found this bug!
+    void returnBike() { m_available = true; }
 
     //--------------------------------------------------------------------------
     // return rental fee 
