@@ -91,6 +91,9 @@ public:
 
     //--------------------------------------------------------------------------
     // overload comparison operator ==
+    // 
+    // returns boolean result of
+    //      if this bike == compareBike
     //--------------------------------------------------------------------------
     bool operator==(CommunityBike& compareBike) const {
         return (this->m_frameHeight == compareBike.m_frameHeight &&
@@ -99,6 +102,9 @@ public:
 
     //--------------------------------------------------------------------------
     // overload comparison operator != 
+    // 
+    // returns boolean result of
+    //      if this bike != compareBike
     //--------------------------------------------------------------------------
     bool operator!=(CommunityBike& compareBike) const {
         return (this->m_frameHeight != compareBike.m_frameHeight ||
@@ -107,7 +113,10 @@ public:
 
     //--------------------------------------------------------------------------
     // overload comparison operator <=
-    //--------------------------------------------------------------------------
+    // 
+    // returns boolean result of
+    //      if this bike <= compareBike
+//--------------------------------------------------------------------------
     bool operator<=(CommunityBike& compareBike) const {
         return (this->m_frameHeight <= compareBike.m_frameHeight);
     }
