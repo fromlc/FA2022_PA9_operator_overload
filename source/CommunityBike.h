@@ -113,7 +113,7 @@ public:
     // overload comparison operator <=
     // 
     // returns true/false result of (this bike <= compareBike)
-//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     bool operator<=(CommunityBike& compareBike) const {
         return (this->m_frameHeight <= compareBike.m_frameHeight);
     }
